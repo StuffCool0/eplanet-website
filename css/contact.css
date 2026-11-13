@@ -1,0 +1,218 @@
+/* ============================================================
+   EPLANET — Contact form modal
+   ============================================================ */
+
+body.modal-open { overflow: hidden; }
+
+.contact-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: color-mix(in srgb, var(--teal-950) 55%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s var(--ease), visibility .4s;
+}
+.contact-overlay.open { opacity: 1; visibility: visible; }
+
+.contact-modal {
+  position: relative;
+  width: min(600px, 100%);
+  max-height: min(88dvh, 780px);
+  overflow-y: auto;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  background: var(--ice);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(3, 39, 35, .4);
+  transform: translateY(24px) scale(.97);
+  transition: transform .45s var(--ease);
+}
+.contact-overlay.open .contact-modal { transform: none; }
+
+.contact-modal::-webkit-scrollbar { width: 6px; }
+.contact-modal::-webkit-scrollbar-thumb { background: var(--teal-100); border-radius: 4px; }
+
+.contact-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  display: grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  cursor: pointer;
+  transition: background .3s var(--ease), transform .3s var(--ease);
+}
+.contact-close:hover { background: var(--ice-2); transform: rotate(90deg); }
+.contact-close svg {
+  width: 16px; height: 16px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.contact-head h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  letter-spacing: -0.02em;
+  margin-top: 12px;
+}
+.contact-sub {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  max-width: 44ch;
+}
+
+/* -- form -- */
+#contactForm { margin-top: var(--s-3); display: grid; gap: 14px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--teal-800);
+}
+.field label em { font-style: normal; color: var(--peach-deep); }
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.field textarea { min-height: 104px; resize: vertical; }
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2306332D' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 42px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--teal-600);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--teal-100) 70%, transparent);
+}
+
+.field-error {
+  display: none;
+  margin-top: 5px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #B05C33;
+}
+.field.invalid .field-error { display: block; }
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea { border-color: #B05C33; }
+
+#contactForm .btn { width: 100%; margin-top: 6px; }
+#contactForm .btn.loading { pointer-events: none; opacity: .7; }
+
+.contact-fine {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+}
+.contact-fine a { font-weight: 600; color: var(--teal-600); }
+.contact-fine a:hover { text-decoration: underline; }
+
+/* -- success view -- */
+.contact-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-block: clamp(1.5rem, 4vw, 2.5rem);
+}
+.success-check {
+  display: grid;
+  place-items: center;
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: var(--teal-900);
+  box-shadow: 0 12px 32px rgba(3, 39, 35, .25);
+}
+.success-check svg {
+  width: 34px; height: 34px;
+  fill: none;
+  stroke: var(--peach);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.contact-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  margin-top: 20px;
+}
+.contact-success p {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  max-width: 40ch;
+}
+.success-ref {
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  background: var(--teal-100);
+  color: var(--teal-800);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+.contact-success .contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+/* -- solid teal button (used in modal) -- */
+.btn-teal {
+  background: var(--teal-900);
+  color: var(--ice);
+}
+.btn-teal:hover { background: var(--teal-800); }
+
+.btn-ghost-dark {
+  border-color: var(--line);
+  color: var(--teal-900);
+  background: transparent;
+}
+.btn-ghost-dark:hover { background: var(--ice-2); }
+
+@media (max-width: 560px) {
+  .form-row { grid-template-columns: 1fr; }
+}
